@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  viewAllEmployees();
+  addDepartment();
 });
 
 function viewAllEmployees() {
@@ -23,4 +23,21 @@ function viewAllEmployees() {
       console.table(response);
     }
   );
+}
+
+function addDepartment(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What Department would you like to add?",
+            name: "department"
+        }
+    ]).then(({department})=>{
+        console.log(department);
+
+        connection.query("INSERT INTO department (department) VALUES (?)", [department],(err, result)=>{
+            if (err) throw err;
+            console.table(result)
+        })
+    })
 }
