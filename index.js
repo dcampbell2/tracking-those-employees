@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  viewAllEmployees();
+  addRole();
 });
 
 function viewAllEmployees() {
@@ -68,6 +68,33 @@ function addDepartment(){
         console.log(department);
 
         connection.query("INSERT INTO department (department) VALUES (?)", [department],(err, result)=>{
+            if (err) throw err;
+            console.table(result)
+        })
+    })
+}
+
+function addRole(){
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What Role would you like to add?",
+            name: "role"
+        },
+        {
+            type: "input",
+            message: "What's the salary for this role?",
+            name: "salary"
+        },
+        {
+            type: "input",
+            message: "What's this roles department ID?",
+            name: "departmentID"
+        }
+    ]).then(({role, salary, departmentID})=>{
+        console.log(role,salary,departmentID);
+
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?,?,?)", [role,salary,departmentID],(err, result)=>{
             if (err) throw err;
             console.table(result)
         })
