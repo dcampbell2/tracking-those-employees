@@ -12,8 +12,35 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  addRole();
+  init()
 });
+
+function init(){
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What action would you like to take?",
+            choices: ["View all Employees", "Add an Employee", "Add a Department", "Add a Role", "Update Employee Role"],
+            name: "answer"
+        }
+    ]).then(({answer})=>{
+        console.log(answer)
+        switch(answer){
+            case "View all Employees":
+                viewAllEmployees()
+            break;
+            case "Add an Employee":
+                addEmployee()
+            break;
+            case "Add a Department":
+                addDepartment()
+            break;
+            case "Add a Role":
+                addRole()
+            break;
+        }
+    })
+}
 
 function viewAllEmployees() {
   connection.query(
