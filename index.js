@@ -20,7 +20,7 @@ function init(){
         {
             type: "list",
             message: "What action would you like to take?",
-            choices: ["View all Employees", "Add an Employee", "Add a Department", "Add a Role", "Update Employee Role"],
+            choices: ["View all Employees", "Add an Employee", "Add a Department", "Add a Role", "Update Employee Role", "Exit"],
             name: "answer"
         }
     ]).then(({answer})=>{
@@ -38,6 +38,9 @@ function init(){
             case "Add a Role":
                 addRole()
             break;
+            case "Exit":
+                connection.end()
+            break;
         }
     })
 }
@@ -48,6 +51,7 @@ function viewAllEmployees() {
     (err, response) => {
       if (err) throw err;
       console.table(response);
+      init()
     }
   );
 }
@@ -80,6 +84,7 @@ function addEmployee(){
         connection.query("INSERT INTO employee(first_name, last_name, role_id, manager_id)VALUES(?, ?, ?, ?)", [firstName,lastName,role,manager], (err, result)=>{
             if (err) throw err;
             console.table(result)
+            init()
         })
     })
 }
@@ -97,6 +102,7 @@ function addDepartment(){
         connection.query("INSERT INTO department (department) VALUES (?)", [department],(err, result)=>{
             if (err) throw err;
             console.table(result)
+            init()
         })
     })
 }
@@ -124,6 +130,7 @@ function addRole(){
         connection.query("INSERT INTO role (title, salary, department_id) VALUES (?,?,?)", [role,salary,departmentID],(err, result)=>{
             if (err) throw err;
             console.table(result)
+            init()
         })
     })
 }
