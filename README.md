@@ -10,7 +10,6 @@
   * [Usage](#usage)
   * [Testing](#testing)
   * [License](#license)
-  * [Questions](#questions)
 
   ## Installation
 
